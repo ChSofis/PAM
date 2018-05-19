@@ -36,7 +36,7 @@ public class PhotoActivity extends AppCompatActivity {
     private static final String IMAGE_NAME = "image.jpg";
     private static final int PERMISSION_REQUEST_CODE = 690;
     private static final int IMAGE_CAPTURE_REQUEST = 329;
-    private static final SimpleDateFormat FORMATTER = new SimpleDateFormat("MM-dd", Locale.getDefault());
+    private static final SimpleDateFormat FORMATTER = new SimpleDateFormat("dd.MM", Locale.getDefault());
     File _temp_image_file;
     private ImageView _image;
 
@@ -227,12 +227,12 @@ public class PhotoActivity extends AppCompatActivity {
         if (comment == null)
             throw new Exception(getString(R.string.error_intent_comment));
         //endregion
-        file = new File(file, "ΚΑs+C&Cs"); //base directory
+        file = new File(file, "KAs + C&Cs"); //base directory
         file = new File(file, store.get_path()); // attach store path
         file = new File(file, category.get_path());//attach category path
         file = new File(file, "ΠΡΟΩΘΗΤΙΚΕΣ ΕΝΕΡΓΕΙΕΣ"); //attach type name
         file = new File(file, get_month_name(date_start.get(Calendar.MONTH) + 1)); //attach month
-
+        if (!file.exists())
         if (!file.mkdirs())
             throw new Exception(getString(R.string.error_create_directories));
 
