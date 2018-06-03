@@ -1,11 +1,14 @@
 package gr.uom.pam;
 
 import android.app.Application;
+import android.os.Environment;
+
+import java.io.File;
 
 public class App extends Application {
     public static final String NAMESPACE = "gr.uom.pam";
-
-    static final String INVALID_CHARACTERS = "\"#@,;:<>*^|?\\/";
+    public static  File IMAGE ;
+    static final String INVALID_CHARACTERS = "\"#@;:<>*^|?\\/";
 
     public static String CheckInvalid(String string) {
         StringBuilder reply = new StringBuilder();
@@ -17,4 +20,9 @@ public class App extends Application {
         return reply.length() > 0 ? reply.deleteCharAt(reply.length() - 1).toString() : null;
     }
 
+    @Override
+    public void onCreate() {
+        super.onCreate();
+        IMAGE = new File(getExternalFilesDir(Environment.DIRECTORY_PICTURES), "image.jpg");
+    }
 }

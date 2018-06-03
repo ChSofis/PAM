@@ -3,41 +3,55 @@ package gr.uom.pam.activities;
 import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.CoordinatorLayout;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
-import android.view.View;
+import android.support.v7.widget.Toolbar;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.widget.Button;
-import android.widget.Toast;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Locale;
 
 import gr.uom.pam.App;
-import gr.uom.pam.BuildConfig;
 import gr.uom.pam.R;
 
 public class DateActivity extends AppCompatActivity {
     public static final String DATE_START = App.NAMESPACE + ".date_start";
     public static final String DATE_END = App.NAMESPACE + ".date_end";
     private static final SimpleDateFormat FORMATTER = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
-    Calendar _date_start;
-    Calendar _date_end;
+    private Calendar _date_start;
+    private Calendar _date_end;
+    private CoordinatorLayout _coordinator;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_date);
+        //set up view needed for snackbars
+        _coordinator = findViewById(R.id.coordinator);
         //set_ups select from date
-        findViewById(R.id.date_start).setOnClickListener(v -> ask_for_date(true));
+        findViewById(R.id.start).setOnClickListener(v -> ask_for_date(true));
         //set up select to date
-        findViewById(R.id.date_end).setOnClickListener(v -> ask_for_date(false));
-        //set up continue
-        findViewById(R.id.date_continue).setOnClickListener(this::do_continue);
+        findViewById(R.id.end).setOnClickListener(v -> ask_for_date(false));
+        //set up toolbar
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        toolbar.setNavigationOnClickListener(v -> super.onBackPressed());
+        toolbar.setOnMenuItemClickListener(this::do_continue);
         //restore state after a configuration change
         if (savedInstanceState != null && savedInstanceState.containsKey(DATE_START))
             set_date(true, (Calendar) savedInstanceState.getSerializable(DATE_START));
         if (savedInstanceState != null && savedInstanceState.containsKey(DATE_END))
             set_date(false, (Calendar) savedInstanceState.getSerializable(DATE_END));
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_continue,menu);
+        return true;
     }
 
     @Override
@@ -47,11 +61,13 @@ public class DateActivity extends AppCompatActivity {
         outState.putSerializable(DATE_END, _date_end);
     }
 
-    private void do_continue(@SuppressWarnings("unused") View view) {
+    private boolean do_continue(MenuItem item) {
+        if (item == null || item.getItemId() != R.id.menu_action)
+            return false;
         if (_date_start == null || _date_end == null) {
-            Toast.makeText(this, R.string.error_no_dates_selected, Toast.LENGTH_SHORT).show();
+            Snackbar.make(_coordinator, R.string.error_no_dates_selected, Snackbar.LENGTH_LONG).show();
         } else if (_date_start.compareTo(_date_end) > 0) {
-            Toast.makeText(this, R.string.error_start_date_after_end_date, Toast.LENGTH_SHORT).show();
+            Snackbar.make(_coordinator, R.string.error_start_date_after_end_date, Snackbar.LENGTH_SHORT).show();
         } else {
             startActivity(
                     new Intent(this, CommentActivity.class)
@@ -60,6 +76,7 @@ public class DateActivity extends AppCompatActivity {
                             .putExtra(DATE_END, _date_end)
             );
         }
+        return true;
     }
 
     private void ask_for_date(boolean start) {
@@ -84,10 +101,10 @@ public class DateActivity extends AppCompatActivity {
     private void set_date(boolean start, Calendar date) {
         if (start) {
             _date_start = date;
-            ((Button) findViewById(R.id.date_start)).setText(FORMATTER.format(date.getTime()));
+            ((Button) findViewById(R.id.start)).setText(FORMATTER.format(date.getTime()));
         } else {
             _date_end = date;
-            ((Button) findViewById(R.id.date_end)).setText(FORMATTER.format(date.getTime()));
+            ((Button) findViewById(R.id.end)).setText(FORMATTER.format(date.getTime()));
         }
     }
 }

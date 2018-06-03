@@ -2,19 +2,23 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     package="gr.uom.pam">
-    <uses-permission android:name="android.permission.INTERNET"/>
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
-    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
-    <uses-feature android:name="android.hardware.camera" android:required="true"/>
+
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+
+    <uses-feature
+        android:name="android.hardware.camera"
+        android:required="true" />
 
     <application
+        android:name=".App"
         android:allowBackup="false"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:name=".App"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
         <provider
@@ -24,8 +28,9 @@
             android:grantUriPermissions="true">
             <meta-data
                 android:name="android.support.FILE_PROVIDER_PATHS"
-                android:resource="@xml/file_paths"/>
+                android:resource="@xml/file_paths" />
         </provider>
+
         <activity android:name=".activities.StoreActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -37,7 +42,8 @@
         <activity android:name=".activities.CommentActivity" />
         <activity android:name=".activities.DateActivity" />
         <activity android:name=".activities.PhotoActivity" />
-        <activity android:name=".activities.AddressActivity"/>
+        <activity android:name=".activities.AddressActivity" />
+        <activity android:name=".activities.FinishActivity"></activity>
     </application>
 
 </manifest>

@@ -1,41 +1,43 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="gr.uom.pam.activities.PhotoActivity">
+    android:id="@+id/coordinator">
+
+    <android.support.design.widget.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:theme="@style/AppBarOverlay">
+
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?android:attr/actionBarSize"
+            android:background="?attr/colorPrimary"
+            android:padding="0dp"
+            app:elevation="@dimen/elevation"
+            app:navigationIcon="@drawable/ic_arrow_back"
+            app:popupTheme="@style/AppPopupOverlay"
+            app:subtitle="@string/select_photo"
+            app:theme="@style/AppTheme.Toolbar"
+            app:title="@string/app_name" />
+
+    </android.support.design.widget.AppBarLayout>
 
     <ImageView
-        android:id="@+id/photo_image"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
+        android:id="@+id/image"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:layout_margin="@dimen/margin"
         android:contentDescription="@string/image_received_by_camera"
-        app:layout_constraintBottom_toTopOf="@+id/photo_take"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 
-    <Button
-        android:id="@+id/photo_take"
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/fab"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="@dimen/margin_large"
-        android:text="@string/take_photo"
-        app:layout_constraintBottom_toTopOf="@+id/photo_finish"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
-
-    <Button
-        android:id="@+id/photo_finish"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="@dimen/margin_large"
-        android:text="@string/finish"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
-
-
-</android.support.constraint.ConstraintLayout>
+        android:layout_gravity="bottom|end"
+        android:layout_margin="@dimen/fab_margin"
+        app:srcCompat="@drawable/ic_add_a_photo" />
+</android.support.design.widget.CoordinatorLayout>

@@ -3,4 +3,6 @@
     <dimen name="margin_large">36dp</dimen>
     <dimen name="margin">8dp</dimen>
     <dimen name="padding">8dp</dimen>
+    <dimen name="elevation">4dp</dimen>
+    <dimen name="fab_margin">16dp</dimen>
 </resources>

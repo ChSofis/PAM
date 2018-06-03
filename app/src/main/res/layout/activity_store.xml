@@ -1,43 +1,41 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/coordinator"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context="gr.uom.pam.activities.StoreActivity">
+    android:layout_height="match_parent">
 
-    <TextView
-        android:id="@+id/store_caption"
-        style="@style/TextAppearance.AppCompat.Large"
-        android:layout_width="0dp"
+    <android.support.design.widget.AppBarLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/margin_large"
-        android:gravity="center"
-        android:text="@string/select_store"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:theme="@style/AppBarOverlay">
+
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?android:attr/actionBarSize"
+            android:background="?attr/colorPrimary"
+            android:padding="0dp"
+            app:elevation="@dimen/elevation"
+            app:title="@string/app_name"
+            app:subtitle="@string/select_store"
+            app:popupTheme="@style/AppPopupOverlay"
+            app:theme="@style/AppTheme.Toolbar" />
+
+    </android.support.design.widget.AppBarLayout>
+
 
     <android.support.v7.widget.RecyclerView
-        android:id="@+id/store_list"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
+        android:id="@+id/list"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="@dimen/margin"
         android:orientation="vertical"
         app:layoutManager="android.support.v7.widget.LinearLayoutManager"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/store_caption"
-        app:layout_constraintBottom_toTopOf="@+id/store_continue"
-        android:layout_margin="@dimen/margin"
-        tools:listitem="@layout/list_item"/>
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"
+        tools:listitem="@layout/list_item" />
 
-    <Button
-        android:id="@+id/store_continue"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="36dp"
-        android:text="@string/do_continue"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
-</android.support.constraint.ConstraintLayout>
+
+</android.support.design.widget.CoordinatorLayout>
