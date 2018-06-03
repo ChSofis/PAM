@@ -17,11 +17,11 @@
             android:background="?attr/colorPrimary"
             android:padding="0dp"
             app:elevation="@dimen/elevation"
-            app:title="@string/app_name"
-            app:subtitle="@string/select_store"
             app:navigationIcon="@drawable/ic_arrow_back"
             app:popupTheme="@style/AppPopupOverlay"
-            app:theme="@style/AppTheme.Toolbar" />
+            app:subtitle="@string/evaluate_path"
+            app:theme="@style/AppTheme.Toolbar"
+            app:title="@string/app_name" />
 
     </android.support.design.widget.AppBarLayout>
 

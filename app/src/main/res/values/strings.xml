@@ -38,7 +38,8 @@
     <string name="error_no_photo_taken">You have to take a photo before saving</string>
     <string name="save">Save</string>
     <string name="title_activity_main">MainActivity</string>
-    <string name="select_comment">Select Comment</string>
-    <string name="Select_address">Select Address</string>
-    <string name="select_photo">Select Photo</string>
+    <string name="select_comment">Insert the Promo Action</string>
+    <string name="Select_address">Insert Address</string>
+    <string name="select_photo">Take Photo</string>
+    <string name="evaluate_path">Check &amp; Finalize</string>
 </resources>
