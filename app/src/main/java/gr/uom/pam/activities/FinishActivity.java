@@ -11,6 +11,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -31,7 +33,10 @@ import static android.content.pm.PackageManager.PERMISSION_GRANTED;
 public class FinishActivity extends AppCompatActivity {
     private static final int PERMISSION_REQUEST_CODE = 690;
     private static final SimpleDateFormat FORMATTER = new SimpleDateFormat("dd.MM", Locale.getDefault());
+    private static final String SAVED = App.NAMESPACE + ".saved";
     private CoordinatorLayout _coordinator;
+    private boolean _saved = false;
+    private Toolbar _toolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,24 +44,81 @@ public class FinishActivity extends AppCompatActivity {
         setContentView(R.layout.activity_finish);
         //set up view needed for snackbars
         _coordinator = findViewById(R.id.coordinator);
-        //set up toolbar
-        Toolbar toolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-        toolbar.setNavigationOnClickListener(v -> super.onBackPressed());
-        toolbar.setOnMenuItemClickListener(this::save);
+        //get state
+        if (savedInstanceState != null && savedInstanceState.containsKey(SAVED))
+            _saved = savedInstanceState.getBoolean(SAVED, false);
+        //set up _toolbar
+        _toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(_toolbar);
+        _toolbar.setNavigationOnClickListener(v -> super.onBackPressed());
+        _toolbar.setOnMenuItemClickListener(this::save);
+        //update the view data
+        update_view_data();
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putBoolean(SAVED, _saved);
+    }
+
+    private void update_view_data() {
+
+        if (getIntent() == null || getIntent().getExtras() == null)
+            return;
+        ((TextView) findViewById(R.id.comment)).setText(getIntent().getExtras().getString(CommentActivity.COMMENT));
+        ((TextView) findViewById(R.id.address)).setText(getIntent().getExtras().getString(AddressActivity.ADDRESS));
+        Category category = getIntent().getExtras().getParcelable(CategoryActivity.CATEGORY);
+        if (category != null)
+            ((TextView) findViewById(R.id.category)).setText(category.get_name());
+        Store store = getIntent().getExtras().getParcelable(StoreActivity.STORE);
+        if (store != null)
+            ((TextView) findViewById(R.id.store)).setText(store.get_name());
+
+        Calendar start = (Calendar) getIntent().getExtras().getSerializable(DateActivity.DATE_START);
+        Calendar end = (Calendar) getIntent().getExtras().getSerializable(DateActivity.DATE_END);
+        if (start != null && end != null) {
+            String dates = DateActivity.FORMATTER.format(start.getTime()) + " - " + DateActivity.FORMATTER.format(end.getTime());
+            ((TextView) findViewById(R.id.date)).setText(dates);
+        }
+        if (!App.IMAGE.exists())
+            return;
+        ImageView image = findViewById(R.id.photo);
+        if (image.getWidth() == 0 || image.getHeight() == 0)
+            image.getViewTreeObserver().addOnGlobalLayoutListener(this::load_thumbnail);
+        else
+            load_thumbnail();
+    }
+
+    private void load_thumbnail() {
+        try {
+            ImageView image = findViewById(R.id.photo);
+            //remove the listener otherwise there may be problems
+            image.getViewTreeObserver().removeOnGlobalLayoutListener(this::load_thumbnail);
+            App.LoadImageToView(image, App.IMAGE);
+        } catch (Exception e) {
+            Snackbar.make(_coordinator, R.string.error_loading_file, Snackbar.LENGTH_LONG).show();
+        }
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_save,menu);
+        getMenuInflater().inflate(R.menu.menu_save, menu);
+        update_menu();
         return true;
     }
 
     private boolean save(MenuItem item) {
-        if (item == null || item.getItemId() != R.id.menu_action)
+        if (item == null)
             return false;
-        do_save();
-        return true;
+        if (item.getItemId() == R.id.menu_save) {
+            do_save();
+            return true;
+        } else if (item.getItemId() == R.id.menu_restart) {
+            do_restart();
+            return true;
+        }
+        return false;
     }
 
 
@@ -92,6 +154,9 @@ public class FinishActivity extends AppCompatActivity {
                 while ((bytes = in.read(buffer)) != -1) {
                     out.write(buffer, 0, bytes);
                 }
+                _saved = true;
+                update_menu();
+                Snackbar.make(_coordinator, getString(R.string.file_created, file.getAbsolutePath()), Snackbar.LENGTH_INDEFINITE).show();
             } finally {
                 if (in != null)
                     in.close();
@@ -100,16 +165,13 @@ public class FinishActivity extends AppCompatActivity {
             }
         } catch (Exception ex) {
             Snackbar.make(_coordinator, getString(R.string.error_create_file, ex.getMessage()), Snackbar.LENGTH_SHORT).show();
-            return;
         }
-
-        startActivity(
-                new Intent(this, StoreActivity.class)
-                        // this flag will remove all current activities on top of our starting activity
-                        .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
-        );
     }
 
+    private void update_menu() {
+        _toolbar.getMenu().findItem(R.id.menu_save).setVisible(!_saved);
+        _toolbar.getMenu().findItem(R.id.menu_restart).setVisible(_saved);
+    }
 
     private File build_file_name() throws Exception {
         File file = Environment.getExternalStorageDirectory();
@@ -196,4 +258,11 @@ public class FinishActivity extends AppCompatActivity {
         }
     }
 
+    void do_restart() {
+        startActivity(
+                new Intent(this, StoreActivity.class)
+                        // this flag will remove all current activities on top of our starting activity
+                        .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+        );
+    }
 }

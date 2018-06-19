@@ -95,11 +95,8 @@ public class PhotoActivity extends AppCompatActivity {
     }
 
     private void try_load_thumbnail() {
-        if (!App.IMAGE.exists()) {
+        if (!App.IMAGE.exists())
             return;
-
-        }
-
         if (_image.getWidth() == 0 || _image.getHeight() == 0) {//this means the thumbnail view is not ready
             //so we attach a listener to show the image when it is actually ready
             _image.getViewTreeObserver().addOnGlobalLayoutListener(this::load_thumbnail);
@@ -111,27 +108,8 @@ public class PhotoActivity extends AppCompatActivity {
     void load_thumbnail() {
         try {
             //remove the listener otherwise there may be problems
-            _image.getViewTreeObserver().addOnGlobalLayoutListener(this::load_thumbnail);
-            // Get the dimensions of the View
-            int targetW = _image.getWidth();
-            int targetH = _image.getHeight();
-
-            // Get the dimensions of the bitmap
-            BitmapFactory.Options bmOptions = new BitmapFactory.Options();
-            bmOptions.inJustDecodeBounds = true;
-            BitmapFactory.decodeFile(App.IMAGE.getPath(), bmOptions);
-            int photoW = bmOptions.outWidth;
-            int photoH = bmOptions.outHeight;
-
-            // Determine how much to scale down the image
-            int scaleFactor = Math.min(photoW / targetW, photoH / targetH);
-
-            // Decode the image file into a Bitmap sized to fill the View
-            bmOptions.inJustDecodeBounds = false;
-            bmOptions.inSampleSize = scaleFactor;
-
-            Bitmap bitmap = BitmapFactory.decodeFile(App.IMAGE.getPath(), bmOptions);
-            _image.setImageBitmap(bitmap);
+            _image.getViewTreeObserver().removeOnGlobalLayoutListener(this::load_thumbnail);
+            App.LoadImageToView(_image,App.IMAGE);
         } catch (Exception e) {
             Snackbar.make(_coordinator, R.string.error_loading_file, Snackbar.LENGTH_LONG).show();
         }

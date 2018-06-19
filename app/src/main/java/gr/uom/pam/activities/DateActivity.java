@@ -21,7 +21,7 @@ import gr.uom.pam.R;
 public class DateActivity extends AppCompatActivity {
     public static final String DATE_START = App.NAMESPACE + ".date_start";
     public static final String DATE_END = App.NAMESPACE + ".date_end";
-    private static final SimpleDateFormat FORMATTER = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
+    public static final SimpleDateFormat FORMATTER = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
     private Calendar _date_start;
     private Calendar _date_end;
     private CoordinatorLayout _coordinator;
