@@ -34,7 +34,7 @@ public class Data {
         stores.add(new Store("Ok Anytime Stores", "ΟΚ STORES"));
         stores.add(new Store("LIDL", "LIDL"));
         stores.add(new Store("ΕΝΑ C&C", "ENA C&C"));
-        stores.add(new Store("MART", "MAKRO)"));
+        stores.add(new Store("MART", "MAKRO"));
         stores.add(new Store("Μασούτης C&C", "MASOUTIS C&C"));
         stores.add(new Store("METRO C&C", "METRO C&C"));
 
