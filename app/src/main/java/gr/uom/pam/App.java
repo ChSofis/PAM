@@ -10,7 +10,7 @@ import java.io.File;
 
 public class App extends Application {
     public static final String NAMESPACE = "gr.uom.pam";
-    static final String INVALID_CHARACTERS = "\"#@;:<>*^|?\\/";
+    static final String INVALID_CHARACTERS = "<:/\\|?\">*";
     public static File IMAGE;
 
     public static String CheckInvalid(String string) {
