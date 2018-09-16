@@ -1,5 +1,6 @@
 package gr.uom.pam.activities;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.location.Address;
 import android.location.Geocoder;
@@ -125,6 +126,7 @@ public class AddressActivity extends AppCompatActivity {
         Snackbar.make(_coordinator, getString(R.string.error_retrieving_location, error.getMessage()), Snackbar.LENGTH_INDEFINITE).show();
     }
 
+ @SuppressLint("StringFormatInvalid")
     private boolean do_continue(MenuItem item) {
         if (item == null || item.getItemId() != R.id.menu_action)
             return false;
