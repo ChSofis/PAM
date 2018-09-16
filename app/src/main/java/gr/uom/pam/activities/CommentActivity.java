@@ -1,5 +1,6 @@
 package gr.uom.pam.activities;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.CoordinatorLayout;
@@ -49,11 +50,15 @@ public class CommentActivity extends AppCompatActivity {
         outState.putString(COMMENT, _comment.getText().toString());
     }
 
+  @SuppressLint("StringFormatInvalid")
     private boolean do_continue(MenuItem item) {
         if (item == null || item.getItemId() != R.id.menu_action)
             return false;
+        String invalid_characters = App.CheckInvalid(_comment.getText().toString());
         if (_comment.getText().length() == 0) {
             Snackbar.make(_coordinator, R.string.error_no_comment_selected, Snackbar.LENGTH_SHORT).show();
+        } else if (invalid_characters != null) {
+                Snackbar.make(_coordinator, getString(R.string.error_invalid_characters_in_comment, invalid_characters), Snackbar.LENGTH_LONG).show();
         } else {
             startActivity(
                     new Intent(this, AddressActivity.class)
