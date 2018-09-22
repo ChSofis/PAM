@@ -37,6 +37,7 @@ public class FinishActivity extends AppCompatActivity {
     private CoordinatorLayout _coordinator;
     private boolean _saved = false;
     private Toolbar _toolbar;
+    private int bytes;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -150,7 +151,6 @@ public class FinishActivity extends AppCompatActivity {
                 in = new FileInputStream(App.IMAGE);
                 out = new FileOutputStream(file);
                 byte[] buffer = new byte[1024];
-                int bytes;
                 while ((bytes = in.read(buffer)) != -1) {
                     out.write(buffer, 0, bytes);
                 }
