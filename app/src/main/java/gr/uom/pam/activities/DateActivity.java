@@ -10,6 +10,8 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Button;
+import android.view.View;
+import android.widget.CheckBox;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -25,6 +27,7 @@ public class DateActivity extends AppCompatActivity {
     private Calendar _date_start;
     private Calendar _date_end;
     private CoordinatorLayout _coordinator;
+    public static boolean CheckBox=false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -105,6 +108,15 @@ public class DateActivity extends AppCompatActivity {
         } else {
             _date_end = date;
             ((Button) findViewById(R.id.end)).setText(FORMATTER.format(date.getTime()));
+        }
+    }
+    public void onCheckBoxClicked (View view) {
+        // Is the button now checked?
+        boolean checked = ((CheckBox) view).isChecked();
+        {
+            if (checked) {
+                CheckBox = true;
+            }
         }
     }
 }

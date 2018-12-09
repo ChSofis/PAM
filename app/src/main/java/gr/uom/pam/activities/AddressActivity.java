@@ -110,8 +110,10 @@ public class AddressActivity extends AppCompatActivity {
         }
         try {
             List<Address> addresses = _geocoder.getFromLocation(location.getLatitude(), location.getLongitude(), 1);
-            if (addresses.size() == 0)
+            if (addresses.size() == 0) {
                 location_failed(new Exception(getString(R.string.error_could_not_find_address)));
+                return;
+            }
             StringBuilder address = new StringBuilder();
             Address found = addresses.get(0);
             for (int idx = 0; idx <= found.getMaxAddressLineIndex(); idx++)
@@ -122,11 +124,13 @@ public class AddressActivity extends AppCompatActivity {
         }
     }
 
+    @SuppressLint("StringFormatInvalid")
     private void location_failed(Exception error) {
         Snackbar.make(_coordinator, getString(R.string.error_retrieving_location, error.getMessage()), Snackbar.LENGTH_INDEFINITE).show();
     }
 
- @SuppressLint("StringFormatInvalid")
+
+    @SuppressLint("StringFormatInvalid")
     private boolean do_continue(MenuItem item) {
         if (item == null || item.getItemId() != R.id.menu_action)
             return false;

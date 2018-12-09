@@ -50,7 +50,7 @@ public class CommentActivity extends AppCompatActivity {
         outState.putString(COMMENT, _comment.getText().toString());
     }
 
-  @SuppressLint("StringFormatInvalid")
+    @SuppressLint("StringFormatInvalid")
     private boolean do_continue(MenuItem item) {
         if (item == null || item.getItemId() != R.id.menu_action)
             return false;

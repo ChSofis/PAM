@@ -1,5 +1,6 @@
 package gr.uom.pam.activities;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Environment;
@@ -37,7 +38,6 @@ public class FinishActivity extends AppCompatActivity {
     private CoordinatorLayout _coordinator;
     private boolean _saved = false;
     private Toolbar _toolbar;
-    private int bytes;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -135,6 +135,7 @@ public class FinishActivity extends AppCompatActivity {
         }
     }
 
+    @SuppressLint("StringFormatInvalid")
     void do_save() {
         //check for access to external
         if (ActivityCompat.checkSelfPermission(this, WRITE_EXTERNAL_STORAGE) != PERMISSION_GRANTED) {
@@ -151,6 +152,7 @@ public class FinishActivity extends AppCompatActivity {
                 in = new FileInputStream(App.IMAGE);
                 out = new FileOutputStream(file);
                 byte[] buffer = new byte[1024];
+                int bytes;
                 while ((bytes = in.read(buffer)) != -1) {
                     out.write(buffer, 0, bytes);
                 }
@@ -208,21 +210,23 @@ public class FinishActivity extends AppCompatActivity {
         file = new File(file, "KAs + C&Cs"); //base directory
         file = new File(file, store.get_path()); // attach store path
         file = new File(file, category.get_path());//attach category path
-        file = new File(file, "ΠΡΟΩΘΗΤΙΚΕΣ ΕΝΕΡΓΕΙΕΣ"); //attach type name
+        if (DateActivity.CheckBox)
+        { file = new File(file, "ΕΞΤΡΑ ΔΕΥΤΕΡΑ ΣΗΜΕΙΑ ΠΩΛΗΣΗΣ");}
+        else
+        { file = new File(file, "ΠΡΟΩΘΗΤΙΚΕΣ ΕΝΕΡΓΕΙΕΣ");}
         file = new File(file, get_month_name(date_start.get(Calendar.MONTH) + 1)); //attach month
         if (!file.exists() && !file.mkdirs())
             throw new Exception(getString(R.string.error_create_directories));
 
-        StringBuilder file_name = new StringBuilder();
-        file_name.append(FORMATTER.format(date_start.getTime()))
-                .append("-")
-                .append(FORMATTER.format(date_end.getTime()))
-                .append(" ")
-                .append(comment)
-                .append(" ")
-                .append(address)
-                .append(".jpg");
-        file = new File(file, file_name.toString());
+        String file_name = FORMATTER.format(date_start.getTime()) +
+                "-" +
+                FORMATTER.format(date_end.getTime()) +
+                " " +
+                comment +
+                " " +
+                address +
+                ".jpg";
+        file = new File(file, file_name);
 
         return file;
     }
@@ -259,10 +263,12 @@ public class FinishActivity extends AppCompatActivity {
     }
 
     void do_restart() {
+        DateActivity.CheckBox=false;
         startActivity(
                 new Intent(this, StoreActivity.class)
                         // this flag will remove all current activities on top of our starting activity
                         .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
         );
     }
+
 }
