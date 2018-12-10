@@ -1,8 +1,11 @@
 package gr.uom.pam;
 
 import android.app.Application;
+import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.os.Environment;
 import android.widget.ImageView;
 
@@ -44,6 +47,14 @@ public class App extends Application {
 
         Bitmap bitmap = BitmapFactory.decodeFile(App.IMAGE.getPath(), bmOptions);
         image.setImageBitmap(bitmap);
+    }
+
+    public static void RefreshFile(File file, Context ctx) {
+        Intent mediaScanIntent = new Intent(
+                Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
+        Uri contentUri = Uri.fromFile(file);
+        mediaScanIntent.setData(contentUri);
+        ctx.sendBroadcast(mediaScanIntent);
     }
 
     @Override

@@ -165,6 +165,7 @@ public class FinishActivity extends AppCompatActivity {
                 if (out != null)
                     out.close();
             }
+            App.RefreshFile(file,this);
         } catch (Exception ex) {
             Snackbar.make(_coordinator, getString(R.string.error_create_file, ex.getMessage()), Snackbar.LENGTH_SHORT).show();
         }
