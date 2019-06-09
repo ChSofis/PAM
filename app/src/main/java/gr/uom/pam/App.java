@@ -13,15 +13,17 @@ import java.io.File;
 
 public class App extends Application {
     public static final String NAMESPACE = "gr.uom.pam";
-    static final String INVALID_CHARACTERS = "<:/\\|?\">*";
+    static final String VALID_CHARACTERS = "abcdefghijklmnopqrstuvwxyz1234567890,αάβγδεέζηήθίικλμνξόοπρστύυφχψώω";
+//    static final String INVALID_CHARACTERS = "<:/\\|?\">*";
     public static File IMAGE;
 
     public static String CheckInvalid(String string) {
         StringBuilder reply = new StringBuilder();
-        for (int idx = 0; idx < INVALID_CHARACTERS.length(); idx++) {
-            String chr = INVALID_CHARACTERS.substring(idx, idx + 1);
-            if (string.contains(chr))
+        string = string.toLowerCase();
+        for (char chr : string.toCharArray()) {
+            if (!VALID_CHARACTERS.contains((String.valueOf(chr)))) {
                 reply.append(chr).append(" ");
+            }
         }
         return reply.length() > 0 ? reply.deleteCharAt(reply.length() - 1).toString() : null;
     }
