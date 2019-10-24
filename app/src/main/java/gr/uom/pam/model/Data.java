@@ -18,6 +18,8 @@ public class Data {
         categories.add(new Category("Dolce Gusto", "NDG"));
         categories.add(new Category("Ροφήματα", "ΡΟΦΗΜΑΤΑ"));
         categories.add(new Category("Παιδική Διατροφή", "ΠΑΙΔΙΚΕΣ ΤΡΟΦΕΣ"));
+        categories.add(new Category("Starbucks", "STARBUCKS"));
+        categories.add(new Category("Fitness Toasties", "TOASTIES"));
         return categories;
     }
 
@@ -29,7 +31,6 @@ public class Data {
         stores.add(new Store("Γαλαξίας", "PENTE"));
         stores.add(new Store("Market In", "BGs/1.MARKET IN"));
         stores.add(new Store("ΑΝΕΔΗΚ Κρητικός", "ELOMAS/1. ΑΝΕΔΗΚ ΚΡΗΤΙΚΟΣ") );
-        stores.add(new Store("ΠΡΟΜΗΘΕΥΤΙΚΗ", "ELOMAS/3. ΠΡΟΜΗΘΕΥΤΙΚΗ"));
         stores.add(new Store("Μασούτης", "MASOUTIS"));
         stores.add(new Store("Ok Anytime Stores", "ΟΚ STORES"));
         stores.add(new Store("LIDL", "LIDL"));
