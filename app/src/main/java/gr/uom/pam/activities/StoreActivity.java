@@ -4,12 +4,12 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.Snackbar;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-
 import gr.uom.pam.App;
 import gr.uom.pam.R;
 import gr.uom.pam.adapters.StoreAdapter;
@@ -37,6 +37,8 @@ public class StoreActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         toolbar.setNavigationOnClickListener(v -> super.onBackPressed());
         toolbar.setOnMenuItemClickListener(this::do_continue);
+        //t&C
+        onfirst();
         //restore instance state
         if (savedInstanceState != null && savedInstanceState.containsKey(STORE)) {
             Store store = savedInstanceState.getParcelable(STORE);
@@ -70,4 +72,19 @@ public class StoreActivity extends AppCompatActivity {
         }
         return true;
     }
-}
+        protected void onfirst()
+        {
+            boolean isFirstRun = getSharedPreferences("PREFERENCE", MODE_PRIVATE).getBoolean("isFirstRun",true);
+            if (isFirstRun) {
+                new AlertDialog.Builder(StoreActivity.this)
+                        .setTitle("Terms & Conditions")
+                        .setMessage("T&C")
+                        .setNegativeButton("Decline", (dialog, which) -> {
+                            finish();
+                            System.exit(0);
+                        })
+                        .setPositiveButton("Accept", (dialog, which) -> getSharedPreferences("PREFERENCE", MODE_PRIVATE)
+                                .edit()
+                                .putBoolean("isFirstRun", false)
+                                .apply()).show();
+            }}}
