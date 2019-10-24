@@ -13,7 +13,7 @@ import java.io.File;
 
 public class App extends Application {
     public static final String NAMESPACE = "gr.uom.pam";
-    static final String VALID_CHARACTERS = "abcdefghijklmnopqrstuvwxyz1234567890,αάβγδεέζηήθίικλμνξόοπρστύυφχψώω";
+    static final String VALID_CHARACTERS = "abcdefghijklmnopqrstuvwxyz1234567890,αάβγδεέζηήθίικλμνξόοπρστύυφχψώω !;()QWERTYUIOPLKJHGFDSAZXCVBNMςΕΡΤΥΘΙΟΠΛΚΞΗΓΦΔΣΑΖΧΨΩΒΝΜΆΈΎΊΌΉΏ";
 //    static final String INVALID_CHARACTERS = "<:/\\|?\">*";
     public static File IMAGE;
 
